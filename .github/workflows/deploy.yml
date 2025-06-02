@@ -23,7 +23,7 @@ jobs:
       - name: Sync Files to S3
         run: |
           aws s3 sync . s3://myportfolio.suzal777.online --delete \
-            --exclude ".git/*" --exclude ".github/*"
+            --exclude ".git/*" --exclude ".github/*" --exclude "lambda/*"
 
       - name: Invalidate CloudFront Cache
         run: |
