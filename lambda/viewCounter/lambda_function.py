@@ -12,7 +12,7 @@ def lambda_handler(event, context):
             Key={'id': ITEM_ID},
             UpdateExpression="SET #c = if_not_exists(#c, :zero) + :inc",
             ExpressionAttributeNames={"#c": "count"},
-            ExpressionAttributeValues={":inc": 3, ":zero": 0},
+            ExpressionAttributeValues={":inc": 2, ":zero": 0},
             ReturnValues="UPDATED_NEW"
         )
 
