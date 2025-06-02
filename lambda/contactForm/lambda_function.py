@@ -14,7 +14,7 @@ def lambda_handler(event, context):
 
         # Format the SNS message
         sns_message = f"""
-        Contact Form Submission:
+        New Contact Form Submission:
         Name: {name}
         Email: {email}
         Message: {message}
