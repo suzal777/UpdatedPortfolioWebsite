@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "index.html"
+      - "assets/**"
+      - "!lambda/**"             # Ignore changes in lambda folder
+      - "!.github/workflows/deploy-lambda.yml"  # Optional: ignore backend workflow file itself
 
 jobs:
   deploy:
