@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch full Git history to allow diffing
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -25,16 +27,22 @@ jobs:
         run: |
           echo "Checking changes in lambda folders..."
 
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^lambda/viewCounter/'; then
+          if [ -z "${{ github.event.before }}" ] || [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
+            echo "No valid 'before' SHA found, assuming all Lambda functions changed."
             echo "viewCounter_changed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "viewCounter_changed=false" >> "$GITHUB_OUTPUT"
-          fi
-
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^lambda/contactForm/'; then
             echo "contactForm_changed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "contactForm_changed=false" >> "$GITHUB_OUTPUT"
+            if git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | grep -q '^lambda/viewCounter/'; then
+              echo "viewCounter_changed=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "viewCounter_changed=false" >> "$GITHUB_OUTPUT"
+            fi
+
+            if git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | grep -q '^lambda/contactForm/'; then
+              echo "contactForm_changed=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "contactForm_changed=false" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Deploy UpdatePortfolioViewCounter Lambda
