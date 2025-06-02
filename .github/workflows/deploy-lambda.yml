@@ -25,18 +25,16 @@ jobs:
         run: |
           echo "Checking changes in lambda folders..."
 
-          # Check if viewCounter folder changed
           if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^lambda/viewCounter/'; then
-            echo "viewCounter_changed=true" >> $GITHUB_OUTPUT
+            echo "viewCounter_changed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "viewCounter_changed=false" >> $GITHUB_OUTPUT
+            echo "viewCounter_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-          # Check if contactForm folder changed
           if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^lambda/contactForm/'; then
-            echo "contactForm_changed=true" >> $GITHUB_OUTPUT
+            echo "contactForm_changed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "contactForm_changed=false" >> $GITHUB_OUTPUT
+            echo "contactForm_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Deploy UpdatePortfolioViewCounter Lambda
