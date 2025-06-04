@@ -61,6 +61,9 @@
   /* -- PROJECT BOX -- */
   sr.reveal('.project-box',{interval: 200})
 
+  /* -- CERTIFICATE BOX -- */
+  sr.reveal('.certificate-box',{interval: 200})
+
   /* -- HEADINGS -- */
   sr.reveal('.top-header',{})
 
